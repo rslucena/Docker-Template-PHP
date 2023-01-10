@@ -5,10 +5,11 @@
 .docker/*/storage/*
 
 #Logs
-.log
+*.log
 
 #Files
 .env
 
 #Static
 application/Public/*
+
