@@ -44,6 +44,22 @@ services:
       - ./.docker/redis/storage:/data
     restart: always
 
+  mysql:
+    container_name: "mysql"
+    build: ./.docker/mysql
+    restart: always
+    command: "--character-set-server=utf8mb4"
+    ports:
+      - "3306:3036"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./.docker/mysql/storage:/var/lib/mysql:rw
+      - ./application/Logs/Mysql:/var/lib/mysql-logs:rw
+
 networks:
   default:
     driver: bridge
