@@ -10,6 +10,5 @@
 #Files
 .env
 
-#Static
-application/Public/*
-
+#MAC
+.DS_Store
