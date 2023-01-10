@@ -1,0 +1,39 @@
+version: "3.1"
+services:
+
+  proxy:
+    container_name: "nginx"
+    image: nginx:stable-alpine
+    working_dir: /application
+    restart:
+      on-failure
+    volumes:
+      - ./application:/application
+      - ./application/Logs/Nginx:/var/log/nginx/
+      - ./.docker/nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - "80:80" #STATIC
+      - "85:85" #SINGLETHREAD
+      - "88:88" #MULTITHREAD
+    depends_on:
+      - php
+    networks:
+      - default
+
+  php:
+    container_name: "php"
+    build: ./.docker/php
+    working_dir: /application
+    volumes:
+    - ./application/:/application
+    - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
+    ports:
+    - "1215:1215"
+    - "9000:9000"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge

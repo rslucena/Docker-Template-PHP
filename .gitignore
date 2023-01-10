@@ -1,8 +1,14 @@
+#IDE
 .idea/*
 
-.docker/*/storage
+#Storages
+.docker/*/storage/*
 
-/logs/**
+#Logs
+.log
 
+#Files
 .env
 
+#Static
+application/Public/*
