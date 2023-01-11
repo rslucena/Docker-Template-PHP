@@ -27,6 +27,7 @@ services:
     working_dir: /application
     volumes:
     - ./application/:/application
+    - ./.docker/php/conf.d:/usr/local/etc/php/conf.d
     - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
     ports:
     - "1215:1215"
