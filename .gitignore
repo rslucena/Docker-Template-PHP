@@ -12,3 +12,7 @@
 
 #MAC
 .DS_Store
+
+#Composer
+*.lock
+*/Vendor/*

@@ -1,0 +1,34 @@
+{
+  "name": "root/application",
+  "description": "A simple structure used as a basis for creating new projects. The main idea is to have a quick project start and evolve as needed.",
+  "type": "project",
+  "license": "MIT",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Rodrigo Lucena",
+      "email": "rodrigo@rslucena.com.br",
+      "homepage": "https://github.com/rslucena"
+    }
+  ],
+  "config": {
+    "optimize-autoloader": true,
+    "prepend-autoloader": true,
+    "platform": {
+      "php": "8"
+    },
+    "vendor-dir": "Vendor"
+  },
+  "autoload": {
+    "classmap": [
+      "App"
+    ],
+    "psr-4": {
+      "Root\\Application\\": "App/"
+    }
+  },
+  "require": {
+    "ext-pdo": "*",
+    "ext-redis": "*"
+  }
+}
