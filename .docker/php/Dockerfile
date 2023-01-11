@@ -21,11 +21,15 @@ RUN docker-php-ext-install pdo_mysql
 RUN pecl install swoole
 RUN docker-php-ext-enable swoole
 
+#REDIS
+RUN pecl install -o -f redis &&  docker-php-ext-enable redis
+
 #COMPOSER
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 #REMOVE CACHE
 RUN rm -r /var/lib/apt/lists/*
+RUN rm -rf /tmp/pear
 
 #SUPERVISOR
 COPY supervisord.conf /etc/supervisor/conf.d/supervisor.conf
