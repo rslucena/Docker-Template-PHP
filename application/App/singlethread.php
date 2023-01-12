@@ -1,18 +1,20 @@
 <?php
 declare(strict_types=1);
 
-use Controller\UserController;
-use Provider\DotEnvProvider;
-use Repository\UserRepository;
+use Root\Application\{
+    Provider\DotEnvProvider,
+    Service\RedisService
+};
 
 require "../Vendor/autoload.php";
 
-$DotEnvProvider = (new DotEnvProvider())->example();
+new DotEnvProvider(realpath(__DIR__ . "/../"));
 
-$UserController = (new UserController())->example();
+$Redis = new RedisService();
 
-$UserRepository = (new UserRepository())->example();
-
-var_dump($DotEnvProvider, $UserController, $UserRepository);
+var_dump($Redis->set('demo', 'demo'));
+var_dump($Redis->get('demo'));
+var_dump($Redis->del('demo'));
+var_dump($Redis->exists('demo'));
 
 die();
