@@ -37,12 +37,11 @@ services:
 
   redis:
     container_name: "redis"
-    build: ./.docker/redis
+    build: .docker/redis
     ports:
       - "6379:6379"
     environment:
-      - REDIS_ARGS:"--requirepass ${REDIS_PASS} --save 60 1 --loglevel warning"
-    command: redis-server
+      REDIS_PASSWORD: ${REDIS_PASS}
     volumes:
       - ./application/:/application
       - ./.docker/redis/storage:/data
