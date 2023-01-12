@@ -26,12 +26,12 @@ services:
     build: ./.docker/php
     working_dir: /application
     volumes:
-    - ./application/:/application
-    - ./.docker/php/conf.d:/usr/local/etc/php/conf.d
-    - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./application/:/application
+      - ./.docker/php/conf.d:/usr/local/etc/php/conf.d
+      - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
     ports:
-    - "1215:1215"
-    - "9000:9000"
+      - "1215:1215"
+      - "9000:9000"
     networks:
       - default
 
@@ -40,8 +40,11 @@ services:
     build: ./.docker/redis
     ports:
       - "6379:6379"
-    command: redis-server --save 60 1 --loglevel warning --requirepass ${REDIS_PASS}
+    environment:
+      - REDIS_ARGS:"--requirepass ${REDIS_PASS} --save 60 1 --loglevel warning"
+    command: redis-server
     volumes:
+      - ./application/:/application
       - ./.docker/redis/storage:/data
     restart: always
 
