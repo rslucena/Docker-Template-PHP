@@ -25,7 +25,7 @@ class MySqlService
     {
         try {
             $this->PDO = new PDO(
-                "mysql:host=mysql;port=3306;dbname=" . getenv('MYSQL_DATABASE'),
+                "mysql:host=".getenv('MYSQL_SERVER').";port=3306;dbname=" . getenv('MYSQL_DATABASE'),
                 getenv('MYSQL_USER'),
                 getenv('MYSQL_PASSWORD')
             );
