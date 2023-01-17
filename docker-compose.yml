@@ -26,6 +26,7 @@ services:
     build: ./.docker/php
     working_dir: /application
     volumes:
+      - ./.env:/application/.env
       - ./application/:/application
       - ./.docker/php/conf.d:/usr/local/etc/php/conf.d
       - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
@@ -36,7 +37,7 @@ services:
       - default
 
   redis:
-    container_name: "redis"
+    container_name: ${REDIS_SERVER}
     build: .docker/redis
     ports:
       - "6379:6379"
@@ -48,7 +49,7 @@ services:
     restart: always
 
   mysql:
-    container_name: "mysql"
+    container_name: ${MYSQL_SERVER}
     build: ./.docker/mysql
     restart: always
     command: "--character-set-server=utf8mb4"
