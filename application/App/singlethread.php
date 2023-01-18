@@ -20,9 +20,9 @@ $Redis->del('test');
 $Redis->exists('test');
 
 $User = new UserController();
-$User->create(['test usr']);
-$User->find(1);
-$User->update(1, ['usr']);
-$User->delete(1);
-
-
+$User->createExempleFunction([
+    'name' => 'test first name',
+    'last_name' => 'test last name',
+    'email' => 'test@localhost.test',
+    'password' => rand(1000000000,9999999999),
+]);
