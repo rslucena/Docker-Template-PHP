@@ -2,20 +2,26 @@
 
 declare(strict_types=1);
 
-use App\{
-    Bootstrap\RouterBootstrap,
-    Providers\DotEnvProvider,
-    Services\RedisService
+use App\Bootstrap\{
+    RouterBootstrap,
+    SettingsBootstrap,
+    DotEnvBootstrap
 };
+
 
 require "../Vendor/autoload.php";
 
-new DotEnvProvider(realpath(__DIR__ . "/../"));
+DotEnvBootstrap::load(__DIR__);
+DotEnvBootstrap::definePath(__DIR__);
 
-$Redis = new RedisService();
+SettingsBootstrap::load();
+SettingsBootstrap::overwriteIni();
+
 $Routes = new RouterBootstrap();
 
-$Routes->get('/exemple', function (){echo 'Welcome to the homepage';});
+$Routes->get('/exemple', function () {
+    echo 'Welcome to the homepage';
+});
 $Routes->post('/login', 'AuthController::login');
 
 #Middleware
