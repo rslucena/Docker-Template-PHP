@@ -78,6 +78,16 @@ class RouterBootstrap
                 $Function = $Details['function'];
                 $Middlewares = $Details['middlewares'];
 
+                foreach($Middlewares as $middleware){
+                    if(class_exists($middleware)){
+                        $middleware = new $middleware;
+                        if( $middleware->handle() === false ){
+                            http_response_code(403);
+                            throw new Exception('You must be logged in to access this page.');
+                        }
+                    }
+                }
+
                 if(is_string($Function)){
 
                     $fn = explode("::",$Function);
