@@ -36,25 +36,6 @@ class UserRepository extends RepositoryAbstraction
      */
     protected function create(array $data): bool|array
     {
-        try {
-
-            $Errors = ( new ValidatorProviders() )
-                ->roles($this->rolesColumns)
-                ->values($data)
-                ->validate();
-
-            var_dump($Errors->showErrors());
-
-            var_dump($Errors->isValid());
-
-        }catch (Exception $exception ){
-
-            $Errors[] = $exception->getMessage();
-
-        }
-
-        return $Errors;
-
     }
 
     protected function find($id)
