@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use Root\Application\Repositories\UserRepository;
+use App\Repositories\UserRepository;
 
 class UserController extends UserRepository
 {

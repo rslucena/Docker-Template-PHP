@@ -2,7 +2,7 @@
 
 namespace App\Abstractions;
 
-use Root\Application\Services\MySqlService;
+use App\Services\MySqlService;
 
 abstract class RepositoryAbstraction
 {
