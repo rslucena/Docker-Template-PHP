@@ -39,6 +39,20 @@ class DotEnvBootstrap
     /**
      * @param string $Dir
      */
+    private static function validateDirectory(string $Dir): void
+    {
+        if (!file_exists($Dir)) {
+            throw new InvalidArgumentException(sprintf('%s does not exist', $Dir));
+        }
+
+        if (!is_readable($Dir)) {
+            throw new RuntimeException(sprintf('%s file is not readable', $Dir));
+        }
+    }
+
+    /**
+     * @param string $Dir
+     */
     public static function definePath(string $Dir): void
     {
         self::validateDirectory($Dir);
@@ -50,20 +64,6 @@ class DotEnvBootstrap
             $NameDir = strtoupper('DIR_' . end($Path));
             $Path = $directory;
             putenv(sprintf('%s=%s', $NameDir, $Path));
-        }
-    }
-
-    /**
-     * @param string $Dir
-     */
-    private static function validateDirectory(string $Dir): void
-    {
-        if (!file_exists($Dir)) {
-            throw new InvalidArgumentException(sprintf('%s does not exist', $Dir));
-        }
-
-        if (!is_readable($Dir)) {
-            throw new RuntimeException(sprintf('%s file is not readable', $Dir));
         }
     }
 
