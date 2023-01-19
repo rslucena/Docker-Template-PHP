@@ -1,6 +1,6 @@
 <?php
 
-namespace Root\Application\Providers;
+namespace App\Providers;
 
 use InvalidArgumentException;
 use RuntimeException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Root\Application\Services;
+namespace App\Services;
 
 use Exception;
 use Redis;

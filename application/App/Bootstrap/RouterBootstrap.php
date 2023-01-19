@@ -1,6 +1,6 @@
 <?php
 
-namespace Root\Application\Bootstrap;
+namespace App\Bootstrap;
 
 use Exception;
 

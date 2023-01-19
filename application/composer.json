@@ -24,7 +24,7 @@
       "App"
     ],
     "psr-4": {
-      "Root\\Application\\": "App/"
+      "App\\": "App/"
     }
   },
   "require": {

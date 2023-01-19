@@ -1,6 +1,6 @@
 <?php
 
-namespace Root\Application\Controllers;
+namespace App\Controllers;
 
 use Root\Application\Repositories\UserRepository;
 

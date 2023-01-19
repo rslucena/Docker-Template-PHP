@@ -1,6 +1,6 @@
 <?php
 
-namespace Root\Application\Providers;
+namespace App\Providers;
 
 use Exception;
 
@@ -43,7 +43,6 @@ class ValidatorProviders
     /**
      * Validate information based on rules
      *
-     * @return array
      * @throws \Exception
      */
     public function validate(): self
@@ -98,8 +97,6 @@ class ValidatorProviders
     /**
      * Return existing errors
      * in validation
-     *
-     * @param array $arr
      *
      * @return array
      */

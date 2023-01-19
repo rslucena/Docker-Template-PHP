@@ -1,14 +1,8 @@
 <?php
 
-namespace Root\Application\Repositories;
+namespace App\Repositories;
 
-use Exception;
-
-use Root\Application\{
-    Abstractions\RepositoryAbstraction,
-    Providers\ValidatorProviders
-};
-
+use App\Abstractions\RepositoryAbstraction;
 
 class UserRepository extends RepositoryAbstraction
 {
@@ -34,7 +28,7 @@ class UserRepository extends RepositoryAbstraction
     /**
      * @throws \Exception
      */
-    protected function create(array $data): bool|array
+    protected function create(array $data)
     {
     }
 

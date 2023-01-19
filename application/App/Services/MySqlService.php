@@ -1,11 +1,10 @@
 <?php
 
-namespace Root\Application\Services;
+namespace App\Services;
 
 use PDO;
 use Exception;
 use PDOException;
-use PDOStatement;
 
 /**
  * @method lastInsertId($name = null)

@@ -1,11 +1,14 @@
 <?php
 
-namespace Root\Application\Middlewares;
+namespace App\Middlewares;
 
 class AuthenticationMiddleware
 {
 
-    public function handle()
+    /**
+     * @return bool
+     */
+    public function handle():bool
     {
         return !empty($_SESSION['user']);
     }

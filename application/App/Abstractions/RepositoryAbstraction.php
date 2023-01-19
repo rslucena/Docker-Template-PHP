@@ -1,6 +1,6 @@
 <?php
 
-namespace Root\Application\Abstractions;
+namespace App\Abstractions;
 
 use Root\Application\Services\MySqlService;
 
