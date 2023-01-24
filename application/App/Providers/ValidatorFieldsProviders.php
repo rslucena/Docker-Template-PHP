@@ -4,12 +4,13 @@ namespace App\Providers;
 
 use Exception;
 
-class ValidatorProviders
+class ValidatorFieldsProviders
 {
 
     private array $values;
     private array $roles;
     private array $errors;
+
 
     /**
      * Sets all values for validation
