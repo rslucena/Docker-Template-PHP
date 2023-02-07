@@ -15,7 +15,6 @@ class RequestMiddleware
 {
 
     private array $GetMethods = [
-        'php://input',
         'get',
         'post',
         'files',
@@ -32,7 +31,7 @@ class RequestMiddleware
      * @return array
      * @throws \Exception
      */
-    public function phpInput(): array
+    public function input(): array
     {
         $Json = file_get_contents('php://input');
         $Content = json_decode($Json, true);
