@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Abstractions\QueryBuilderAbstraction;
 use PDO;
 use Exception;
 use PDOException;
@@ -10,7 +11,7 @@ use PDOException;
  * @method lastInsertId($name = null)
  * @method fetchAll($name = null)
  */
-class MySqlService
+class MySqlService extends QueryBuilderAbstraction
 {
 
     private PDO $PDO;
@@ -33,6 +34,7 @@ class MySqlService
             $this->PDO->setAttribute(PDO::ATTR_ORACLE_NULLS, PDO::NULL_EMPTY_STRING);
             $this->PDO->setAttribute(PDO::ATTR_AUTOCOMMIT, false);
             $this->PDO->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+
         } catch (PDOException $Exception) {
             throw new Exception($Exception->getMessage());
         }
@@ -56,7 +58,7 @@ class MySqlService
 
         $statement->execute($args);
 
-        return $statement->fetchAll();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
