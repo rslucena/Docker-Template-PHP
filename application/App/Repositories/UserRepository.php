@@ -7,18 +7,18 @@ use App\Abstractions\RepositoryAbstraction;
 class UserRepository extends RepositoryAbstraction
 {
 
-    private string $tableName = 'user';
+    private string $TableName = 'user';
 
-    private string $indexColumn = 'id';
+    private string $IndexColumn = 'id';
 
-    private array $tableColumns = [
+    private array $TableColumns = [
         'first_name',
         'last_name',
         'email',
         'password'
     ];
 
-    private array $rolesColumns = [
+    private array $RolesColumns = [
         'first_name' => 'required|string|min:3|max:100',
         'last_name' => 'required|string|min:3|max:100',
         'email' => 'email|max:255',
@@ -28,19 +28,35 @@ class UserRepository extends RepositoryAbstraction
     /**
      * @throws \Exception
      */
-    protected function create(array $data)
+    protected function create(array $Data)
     {
     }
 
-    protected function find($id)
+    protected function find(array $Filter): array
+    {
+        $Key = "usr:" . implode(":", $Filter);
+
+        $Query = $this->Mysql->from('usr');
+        $Query->columns(['id', 'first_name', 'last_name', 'email', 'password', 'created_at']);
+        foreach ($Filter as $Key => $value) {
+            $Query->where($Key, $value);
+        }
+
+        $User = json_decode($this->Redis->get($Key), true);
+
+        $User = !empty($User) ? $User : $this->Mysql->execute($Query->build(), $Filter);
+
+        $this->Redis->set(json_encode($Key, true), $User, 60);
+
+        return $User;
+
+    }
+
+    protected function update($Filter, $Data)
     {
     }
 
-    protected function update($id, $data)
-    {
-    }
-
-    protected function delete($id)
+    protected function delete($Filter)
     {
     }
 
