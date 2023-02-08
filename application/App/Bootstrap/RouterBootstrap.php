@@ -79,19 +79,8 @@ class RouterBootstrap
                 $Middlewares = $Details['middlewares'];
 
                 foreach($Middlewares as $middleware){
-                    if(class_exists($middleware)){
-                        $middleware = new $middleware;
-                        if( $middleware->handle() === false ){
-                            http_response_code(403);
-                            throw new Exception('You must be logged in to access this page.');
-                        }
-                    }
-                }
 
-                if(is_string($Function)){
-
-                    $fn = explode("::",$Function);
-
+                    $fn = explode("::",$middleware) ?? $middleware;
                     $Class = $fn[0];
                     $Function = $fn[1];
 
@@ -100,8 +89,31 @@ class RouterBootstrap
                         throw new Exception('Class not available, existing or invalid.');
                     }
 
-                    $Class = new $Class;
-                    return $Class->$Function();
+                    if( empty($Function) === true ){
+                        http_response_code(403);
+                        throw new Exception('Method not available, existing or invalid.');
+                    }
+
+                    if( (new $Class)->$Function() ){
+                        http_response_code(403);
+                        throw new Exception('You must be logged in to access this page.');
+                    }
+
+                }
+
+                if(is_string($Function)){
+
+                    $fn = explode("::",$Function);
+                    $Class = $fn[0];
+                    $Function = $fn[1];
+
+                    if(class_exists($Class) === false ){
+                        http_response_code(403);
+                        throw new Exception('Class not available, existing or invalid.');
+                    }
+
+                    return (new $Class)->$Function();
+
                 }
 
                 return call_user_func_array($Function, array_slice($matches, 1));
