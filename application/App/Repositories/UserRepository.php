@@ -4,7 +4,8 @@ namespace App\Repositories;
 
 use App\Abstractions\RepositoryAbstraction;
 use Exception;
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
+
 
 class UserRepository extends RepositoryAbstraction
 {
