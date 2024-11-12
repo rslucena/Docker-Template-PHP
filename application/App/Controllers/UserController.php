@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\{Providers\ValidatorFieldsProviders, Repositories\UserRepository, Types\AuthType};
+use App\{Providers\ValidatorFieldsProviders, Repositories\UserRepository};
 use App\Middlewares\{AuthenticationMiddleware, RequestMiddleware, ResponseMiddleware};
 use Exception;
 
@@ -44,7 +44,7 @@ class UserController extends UserRepository
 
         $Auth = new AuthenticationMiddleware();
 
-        $Token = $Auth->authenticate($Request->input()['usr'], AuthType::USERNAME_PASSWORD);
+        $Token = $Auth->authenticate($Request->input()['usr'], "JWT");
 
         $Response->Code = 201;
         $Response->Body = '';
