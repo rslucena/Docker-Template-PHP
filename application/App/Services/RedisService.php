@@ -19,19 +19,13 @@ class RedisService
     /**
      * Building Redis class
      *
-     * @throws \Exception
+     * @throws Exception
      */
     function __construct()
     {
         $this->Redis = new Redis();
 
-        if (!$this->Redis->isConnected()) {
-            try {
-                $this->Redis->connect(getenv('REDIS_SERVER'), getenv('REDIS_PORT'));
-            } catch (Exception $exception) {
-                throw new Exception($exception->getMessage());
-            }
-        }
+        if (!$this->Redis->isConnected()) $this->Redis->connect(getenv('REDIS_SERVER'), getenv('REDIS_PORT'));
 
         try {
             $this->Redis->auth(['default', getenv('REDIS_PASS')]);

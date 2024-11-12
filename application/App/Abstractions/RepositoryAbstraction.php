@@ -2,10 +2,7 @@
 
 namespace App\Abstractions;
 
-use App\Services\{
-    MySqlService,
-    RedisService
-};
+use App\Services\{MySqlService, RedisService};
 
 abstract class RepositoryAbstraction
 {

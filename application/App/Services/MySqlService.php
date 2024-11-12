@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Abstractions\QueryBuilderAbstraction;
-use PDO;
 use Exception;
+use PDO;
 use PDOException;
 
 /**
@@ -19,13 +19,13 @@ class MySqlService extends QueryBuilderAbstraction
     /**
      * Building Mysql class
      *
-     * @throws \Exception
+     * @throws Exception
      */
     function __construct()
     {
         try {
             $this->PDO = new PDO(
-                "mysql:host=".getenv('MYSQL_SERVER').";port=3306;dbname=" . getenv('MYSQL_DATABASE'),
+                "mysql:host=" . getenv('MYSQL_SERVER') . ";port=3306;dbname=" . getenv('MYSQL_DATABASE'),
                 getenv('MYSQL_USER'),
                 getenv('MYSQL_PASSWORD')
             );
@@ -36,6 +36,7 @@ class MySqlService extends QueryBuilderAbstraction
             $this->PDO->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 
         } catch (PDOException $Exception) {
+            var_dump($Exception);
             throw new Exception($Exception->getMessage());
         }
     }
@@ -48,7 +49,7 @@ class MySqlService extends QueryBuilderAbstraction
      *
      * @return array|false
      */
-    public function execute($sql, $args = null):array|false
+    public function execute($sql, $args = null): array|false
     {
         if (!$args) {
             $this->PDO->query($sql);
