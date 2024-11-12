@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use App\{Repositories\UserRepository, Providers\ValidatorFieldsProviders, Types\AuthType};
-
-use App\Middlewares\{AuthenticationMiddleware, ResponseMiddleware, RequestMiddleware};
+use App\{Providers\ValidatorFieldsProviders, Repositories\UserRepository, Types\AuthType};
+use App\Middlewares\{AuthenticationMiddleware, RequestMiddleware, ResponseMiddleware};
+use Exception;
 
 class UserController extends UserRepository
 {
@@ -12,9 +12,10 @@ class UserController extends UserRepository
 
     /**
      * @return ResponseMiddleware
-     * @throws \Exception
+     * @throws Exception
      */
-    public function Auth():ResponseMiddleware{
+    public function Auth(): ResponseMiddleware
+    {
 
         $Response = new ResponseMiddleware();
 
@@ -28,27 +29,31 @@ class UserController extends UserRepository
             ->values($Request->input())
             ->validate();
 
-        if( !$Errors->isValid() ){
+        if (!$Errors->isValid()) {
             $Response->Code = 400;
-            $Response->Body = json_encode( $Errors->showErrors(), true );
+            $Response->Body = json_encode($Errors->showErrors(), true);
             return $Response;
         }
 
         $User = $this->find(['email' => $Request->input()['usr']])[0];
 
-        if( empty($User) || password_verify($Request->input()['pass'], $User['password']) ){
+        if (empty($User) || password_verify($Request->input()['pass'], $User['password'])) {
             $Response->Code = 400;
-            $Response->Body = json_encode("Incorrect credentials", true );
+            $Response->Body = json_encode("Incorrect credentials", true);
             return $Response;
         }
 
         $Auth = new AuthenticationMiddleware();
-        $Auth->authenticate( $User, AuthType::USERNAME_PASSWORD );
+        $Auth->authenticate($User, AuthType::USERNAME_PASSWORD);
         //continue...
+
+        return $Response;
     }
 
     public function viewProfile()
     {
+
+
     }
 
     public function updateProfile()

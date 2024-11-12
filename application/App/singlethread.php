@@ -2,11 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Bootstrap\{
-    RouterBootstrap,
-    SettingsBootstrap,
-    DotEnvBootstrap
-};
+use App\Bootstrap\{DotEnvBootstrap, RouterBootstrap, SettingsBootstrap};
 
 
 require "../Vendor/autoload.php";
@@ -22,6 +18,7 @@ $Routes = new RouterBootstrap();
 $Routes->get('/exemple', function () {
     echo 'Welcome to the homepage';
 });
+
 $Routes->post('/login', 'App\Controllers\UserController::Auth');
 
 #Middleware
@@ -36,6 +33,6 @@ try {
     $Response = $Routes->match($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
     $Response->end();
 
-}catch (Exception $exception){
+} catch (Exception $exception) {
     die($exception->getMessage());
 }

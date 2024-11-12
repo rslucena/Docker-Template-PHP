@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Abstractions\RepositoryAbstraction;
+use Exception;
+use http\Exception\InvalidArgumentException;
 
 class UserRepository extends RepositoryAbstraction
 {
@@ -26,7 +28,7 @@ class UserRepository extends RepositoryAbstraction
     ];
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function create(array $Data)
     {
@@ -34,13 +36,18 @@ class UserRepository extends RepositoryAbstraction
 
     protected function find(array $Filter): array
     {
-        $Key = "usr:" . implode(":", $Filter);
 
-        $Query = $this->Mysql->from('usr');
+        $invalids = array_diff(array_keys($Filter), array_keys($this->TableColumns));
+
+        if (!empty($invalids)) throw new InvalidArgumentException('Argument Invalid.' . implode(', ', $invalids));
+
+        $Key = "$this->TableName:" . implode(":", $Filter);
+
+        $Query = $this->Mysql->from($this->TableName);
+
         $Query->columns(['id', 'first_name', 'last_name', 'email', 'password', 'created_at']);
-        foreach ($Filter as $Key => $value) {
-            $Query->where($Key, $value);
-        }
+
+        foreach ($Filter as $Key => $value) $Query->where($Key, $value);
 
         $User = json_decode($this->Redis->get($Key), true);
 
