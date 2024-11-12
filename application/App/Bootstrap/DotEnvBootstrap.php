@@ -10,13 +10,13 @@ class DotEnvBootstrap
 
     static function load(string $Dir): void
     {
-        $Dir = realpath($Dir . "/../.env");
+        $Dir = realpath($Dir . "/.env");
 
         self::validateDirectory($Dir);
 
-        $Lines = file($Dir, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $Lines = file($Dir, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?? [];
 
-        foreach ($Lines ?? [] as $line) {
+        foreach ($Lines as $line) {
             if (str_starts_with(trim($line), '#')) {
                 continue;
             }
@@ -41,6 +41,7 @@ class DotEnvBootstrap
      */
     private static function validateDirectory(string $Dir): void
     {
+
         if (!file_exists($Dir)) {
             throw new InvalidArgumentException(sprintf('%s does not exist', $Dir));
         }
@@ -55,11 +56,12 @@ class DotEnvBootstrap
      */
     public static function definePath(string $Dir): void
     {
+
         self::validateDirectory($Dir);
 
-        $Directories = glob($Dir . '/*', GLOB_ONLYDIR);
+        $Directories = glob($Dir . '/*', GLOB_ONLYDIR) ?? [];
 
-        foreach ($Directories ?? [] as $directory) {
+        foreach ($Directories as $directory) {
             $Path = explode('/', $directory);
             $NameDir = strtoupper('DIR_' . end($Path));
             $Path = $directory;
