@@ -5,7 +5,7 @@ namespace App\Middlewares;
 class AuthenticationMiddleware
 {
 
-    private string $Type = "";
+    private string $Type = "JWT";
     private array $User = [];
     private array $Permissions = [];
 
@@ -85,7 +85,7 @@ class AuthenticationMiddleware
 
     public function grantPermission($Permission)
     {
-        array_push($this->Permissions, $Permission);
+        return array_push($this->Permissions, $Permission);
     }
 
     public function revokePermission($Permission)
