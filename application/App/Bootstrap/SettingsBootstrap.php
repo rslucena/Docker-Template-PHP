@@ -24,8 +24,6 @@ class SettingsBootstrap
 
         ini_set('session.save_path', getenv('DIR_SESSIONS'));
 
-        ini_set('display_startup_errors', (string)getenv('CONF_SAVELOGS'));
-
         ini_set('session.gc_maxlifetime', (int)getenv('CONF_TIMESESSION'));
     }
 
