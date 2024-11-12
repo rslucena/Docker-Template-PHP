@@ -1,5 +1,3 @@
 <?php
-
-http_response_code(500);
-
+http_response_code(400);
 die();
