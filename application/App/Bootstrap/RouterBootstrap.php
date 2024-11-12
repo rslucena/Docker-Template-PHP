@@ -60,9 +60,9 @@ class RouterBootstrap
      * @param string $URI
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
-    public function match(string $Method, string $URI):mixed
+    public function match(string $Method, string $URI): mixed
     {
 
         if (!in_array($Method, array_keys($this->Routes))) {
@@ -78,36 +78,30 @@ class RouterBootstrap
                 $Function = $Details['function'];
                 $Middlewares = $Details['middlewares'];
 
-                foreach($Middlewares as $middleware){
+                foreach ($Middlewares as $middleware) {
 
-                    $fn = explode("::",$middleware) ?? $middleware;
-                    $Class = $fn[0];
-                    $Function = $fn[1];
+                    $fn = explode("::", $middleware) ?? $middleware;
+                    $action = $fn[1] ?? "execute";
 
-                    if(class_exists($Class) === false ){
+                    if (class_exists($fn[0]) === false) {
                         http_response_code(403);
                         throw new Exception('Class not available, existing or invalid.');
                     }
 
-                    if( empty($Function) === true ){
-                        http_response_code(403);
-                        throw new Exception('Method not available, existing or invalid.');
-                    }
-
-                    if( (new $Class)->$Function() ){
+                    if (!(new $fn[0])->$action()) {
                         http_response_code(403);
                         throw new Exception('You must be logged in to access this page.');
                     }
 
                 }
 
-                if(is_string($Function)){
+                if (is_string($Function)) {
 
-                    $fn = explode("::",$Function);
+                    $fn = explode("::", $Function);
                     $Class = $fn[0];
                     $Function = $fn[1];
 
-                    if(class_exists($Class) === false ){
+                    if (class_exists($Class) === false) {
                         http_response_code(403);
                         throw new Exception('Class not available, existing or invalid.');
                     }

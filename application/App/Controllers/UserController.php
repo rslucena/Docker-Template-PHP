@@ -9,7 +9,6 @@ use Exception;
 class UserController extends UserRepository
 {
 
-
     /**
      * @return ResponseMiddleware
      * @throws Exception
@@ -35,32 +34,60 @@ class UserController extends UserRepository
             return $Response;
         }
 
-        $User = $this->find(['email' => $Request->input()['usr']])[0];
-
-        if (empty($User) || password_verify($Request->input()['pass'], $User['password'])) {
-            $Response->Code = 400;
-            $Response->Body = json_encode("Incorrect credentials", true);
-            return $Response;
-        }
+//        $User = $this->find(['email' => $Request->input()['usr']])[0];
+//
+//        if (empty($User) || password_verify($Request->input()['pass'], $User['password'])) {
+//            $Response->Code = 400;
+//            $Response->Body = json_encode("Incorrect credentials", true);
+//            return $Response;
+//        }
 
         $Auth = new AuthenticationMiddleware();
-        $Auth->authenticate($User, AuthType::USERNAME_PASSWORD);
-        //continue...
+
+        $Token = $Auth->authenticate($Request->input()['usr'], AuthType::USERNAME_PASSWORD);
+
+        $Response->Code = 201;
+        $Response->Body = '';
+        $Response->Headers = ['Authorization' => 'Bearer ' . $Token];
 
         return $Response;
     }
 
-    public function viewProfile()
+    public function ByID(): ResponseMiddleware
     {
 
+        $Response = new ResponseMiddleware();
 
+        $Response->Body = json_encode([
+            'id' => 1,
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'QYf9z@example.com',
+        ]);
+
+        return $Response;
     }
 
-    public function updateProfile()
+    public function ByParams(): ResponseMiddleware
+    {
+
+        $Response = new ResponseMiddleware();
+
+        $Response->Body = json_encode([
+            'id' => 1,
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'QYf9z@example.com',
+        ]);
+
+        return $Response;
+    }
+
+    public function UpdateByID()
     {
     }
 
-    public function deleteUser()
+    public function DeleteByID()
     {
     }
 
@@ -68,12 +95,9 @@ class UserController extends UserRepository
     {
     }
 
-    public function getMetadata()
-    {
-    }
-
     public function getAllowedMethods()
     {
+        return ['GET', 'PUT', 'DELETE'];
     }
 
 }
