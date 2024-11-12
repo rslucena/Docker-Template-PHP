@@ -1,4 +1,3 @@
-version: "3.1"
 services:
 
   proxy:
@@ -13,9 +12,9 @@ services:
       - ./.docker/nginx/conf/nginx.conf:/etc/nginx/conf/nginx.conf
       - ./.docker/nginx/conf.d:/etc/nginx/conf.d
     ports:
-      - "80:80" #STATIC
-      - "85:85" #SINGLETHREAD
-      - "88:88" #MULTITHREAD
+      - "3500:3500" #STATIC
+      - "3000:3000" #SINGLETHREAD
+      - "4000:4000" #MULTITHREAD
     depends_on:
       - php
     networks:
@@ -26,12 +25,11 @@ services:
     build: ./.docker/php
     working_dir: /application
     volumes:
-      - ./.env:/application/.env
       - ./application/:/application
       - ./.docker/php/conf.d:/usr/local/etc/php/conf.d
       - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
     ports:
-      - "1215:1215"
+      - "9500:9500"
       - "9000:9000"
     networks:
       - default
@@ -44,9 +42,8 @@ services:
     environment:
       REDIS_PASSWORD: ${REDIS_PASS}
     volumes:
-      - ./application/:/application
       - ./.docker/redis/storage:/data
-    restart: always
+    restart: on-failure
 
   mysql:
     container_name: ${MYSQL_SERVER}
